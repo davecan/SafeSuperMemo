@@ -1,11 +1,14 @@
-# Overview
+## Overview
 
 This script is designed to wrap execution of SuperMemo so that it can be safely maintained in Dropbox.
 
-# What about the Dropbox Conflict Resolver? 
+### What about the Dropbox Conflict Resolver? 
 
-SafeSuperMemo takes the idea of the AutoHotKey-based Dropbox Conflict Resolver available on the SuperMemopedia site and extends it by adding a basic automated
-collection backup capability. Since it is PowerShell it eliminates the dependency on AutoHotKey.
+There's absolutely nothing wrong with the AutoHotKey-based Dropbox Conflict Resolver available on the SuperMemopedia site. It's a perfectly fine tool.
+If you like it and want to keep using it please feel free. It's been in use for years.
+
+SafeSuperMemo takes the same idea and extends it by adding a basic automated collection backup capability. Since it is PowerShell it also eliminates the dependency on AutoHotKey,
+and significantly expands the possibilities of what features can be added.
 
 What it does:
 
@@ -23,6 +26,6 @@ To use, just create a shortcut to Powershell and pass it the path to the `.ps1` 
   
 The script and its associated properties file are both thoroughly documented. See them for more details. Be sure to check the warnings.
 
-# License
+### License
 
 SafeSuperMemo is distributed under the terms of the MIT license.
