@@ -26,6 +26,11 @@ To use, just create a shortcut to Powershell and pass it the path to the `.ps1` 
   
 The script and its associated properties file are both thoroughly documented. See them for more details. Be sure to check the warnings.
 
+### Caveat Emptor
+
+I've used this personally over 150 times without incident, including recovering from backup copies a few times. But just because I never encountered an issue with it
+doesn't guarantee you won't. Therefore your use of this must be at your own risk. Be sure to check the warnings in the script documentation.
+
 ### License
 
 SafeSuperMemo is distributed under the terms of the MIT license.
