@@ -31,6 +31,10 @@ The script and its associated properties file are both thoroughly documented. Se
 I've used this personally over 150 times without incident, including recovering from backup copies a few times. But just because I never encountered an issue with it
 doesn't guarantee you won't. Therefore your use of this must be at your own risk. Be sure to check the warnings in the script documentation.
 
+### Platforms
+
+This script has been used extensively on Windows 10. It should run under previous versions of Windows that support PowerShell.
+
 ### License
 
 SafeSuperMemo is distributed under the terms of the MIT license.
