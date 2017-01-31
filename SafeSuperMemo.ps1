@@ -6,12 +6,15 @@ SuperMemo Backup and Run Script
 
 .DESCRIPTION
 
-This script is designed to wrap execution of SuperMemo so that it can be started and terminated cleanly.
+This script is designed to wrap execution of SuperMemo so that it can be started and terminated cleanly,
+allowing it to be hosted in either Dropbox or OneDrive.
 
 It has two main features:
 
-  - Dropbox compatibility (see important warnings in NOTES)
-  - Backups automatically generated at runtime
+  - Dropbox and OneDrive compatibility. (see important warnings in NOTES)
+  - Backups automatically generated at runtime.
+
+OneNote compatibility is currently only briefly tested. Feedback from actual users is appreciated.
 
 The script is configured using an external file named SafeSuperMemo.properties.ps1. It is fully documented.
 All configuration settings must be formatted as Powershell variables, with leading $ symbols.
@@ -38,17 +41,17 @@ and add a global keyboard shortcut (ex: CTRL+ALT+S) that will execute the script
 
 .NOTES
 
-The script will manage termination and restart of the Dropbox service automatically. This means the
-SuperMemo collection "SHOULD BE" safely hostable in Dropbox. Be aware however that there are grave warnings 
-on the SuperMemo support site[1] that Dropbox can and likely WILL cause massive corruption of the SuperMemo
-collection if the Dropbox service is actively running in the background while SuperMemo is running. This is
+The script will manage termination and restart of the sync service (Dropbox, OneNote) automatically. This 
+means the collection "SHOULD BE" safely hostable in either service. Be aware however that there are grave 
+warnings on the SuperMemo support site[1] that sync services can and likely WILL cause massive corruption of 
+the collection if the service is actively running in the background while SuperMemo is running. This is
 because SuperMemo expects the collection to be untouched by any process other than SuperMemo while it is
-in use, and it updates the collection's data files as you proceed through the element queue. If Dropbox is
-running at the same time it will detect these changes and attempt to sync the files individually with the
-Dropbox cloud service, causing brief file locks and resulting in files becoming out of sync within the
+in use, and it updates the collection's data files as you proceed through the element queue. If the sync 
+service is running at the same time it will detect these changes and attempt to sync the files individually 
+with its cloud storage, causing brief file locks and resulting in files becoming out of sync within the
 SuperMemo collection. When this occurs there can be significant data loss and data corruption that can
 be difficult or impossible to recover completely. As such the SuperMemo site warns explicitly against
-using Dropbox to host the collection files.
+using services like Dropbox and OneNote to host the collection files.
 
 That said, the solution is simple and has been in use for several years. Another user created an
 AutoHotKey script[2] that will disable the Dropbox service, run SuperMemo, then when SuperMemo exits it
@@ -56,9 +59,9 @@ restarts the Dropbox service. This allows the user to host the SuperMemo collect
 between multiple computers (and a lightweight backup capability) while ensuring the collection can be
 used in SuperMemo safely.
 
-This script does exactly the same thing as the AutoHotKey script: it disables the Dropbox service completely
-when executed, then runs SuperMemo and waits for it to finish. Once SuperMemo is closed the script will
-re-enable Dropbox.
+This script does exactly the same thing as the AutoHotKey script, except it also now supports OneNote: 
+it disables the sync service completely when executed, then runs SuperMemo and waits for it to finish. 
+Once SuperMemo is closed the script will re-enable the sync service. (so Dropbox/OneNote will sync again)
 
 What this script does differently is it generates a backup every time it is run. Backups are generated as
 follows:
@@ -78,9 +81,9 @@ This script is NOT a replacement for your own due diligence in managing your col
 While the author of this script has used it very successfully without incident that does not mean it
 will work exactly the same on every computer. Because of the importance of your SuperMemo collection 
 in your life you should continue to perform periodic manual backups and consider redundant backups.
-For example, storing the active collection in Dropbox and storing the backups on the local computer which
-is in turn backed up regularly via another cloud backup service and/or hard disk backups and/or images.
-You are responsible for managing your collection's data integrity.
+For example, storing the active collection in a sync service and storing the backups on the local computer 
+which is in turn backed up regularly via another cloud backup service and/or hard disk backups and/or images.
+You are responsible for the integrity of your collection.
 
 Refs:
 
@@ -112,6 +115,35 @@ function StartDropbox
     Start $dropboxPath
     echo "-Done!"
     echo ""
+}
+
+function KillOneDrive
+{
+    echo "Killing OneDrive"
+    & $onedrivePath '/shutdown'
+    echo "-Done!"
+    echo ""
+}
+
+function StartOneDrive
+{
+    echo "Starting OneDrive"
+    & $onedrivePath
+    echo "-Done!"
+    echo ""
+}
+
+function KillSyncService
+{
+    If ($useService -eq [SyncService]::Dropbox) { KillDropbox }
+    ElseIf ($useService -eq [SyncService]::OneDrive) { KillOneDrive }
+    Else { throw "*** ERROR:  No valid sync service specified in properties file! ***" }
+}
+
+function StartSyncService
+{
+    If ($useService -eq [SyncService]::Dropbox) { StartDropbox }
+    ElseIf ($useService -eq [SyncService]::OneDrive) { StartOneDrive }
 }
 
 function BackupCollection
@@ -185,15 +217,8 @@ function Report
     echo ""
 }
 
-function Main
+function PauseForAnyKey
 {
-    KillDropbox
-    BackupCollection
-    VerifyBackupIntegrity
-    RunSuperMemo
-    StartDropbox
-    Report
-
     # IO subsystem is not available in Powershell ISE.
     # If we are in ISE then we are developing the script and the console
     # won't go away after each run, so no need for an IO wait.
@@ -204,6 +229,24 @@ function Main
         $HOST.UI.RawUI.ReadKey(“NoEcho,IncludeKeyDown”) | Out-Null
         $HOST.UI.RawUI.Flushinputbuffer()
     }
+}
+
+function Main
+{
+    try { KillSyncService }
+    catch
+    {
+        Write-Error $_.Exception.Message
+        PauseForAnyKey
+        exit
+    }
+
+    BackupCollection
+    VerifyBackupIntegrity
+    RunSuperMemo
+    StartSyncService
+    Report
+    PauseForAnyKey
 }
 
 Main
