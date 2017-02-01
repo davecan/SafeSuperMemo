@@ -51,8 +51,7 @@ $useService = [SyncService]::Dropbox
 #     then this line should be:  
 #         $collectionRootDir = C:\dir1\    (include trailing slash!)
 #
-$collectionRootDir = "C:\Users\David\Dropbox\SuperMemo\Master Collections\"
-#$collectionRootDir = "C:\Users\David\OneDrive\SuperMemo\"
+$collectionRootDir = "C:\dir1\"
 
 
 #
@@ -64,7 +63,7 @@ $collectionRootDir = "C:\Users\David\Dropbox\SuperMemo\Master Collections\"
 #     then this line should be: 
 #         $collectionName = My Collection
 #
-$collectionName = "All My Knowledge"
+$collectionName = "My Collection"
 
 
 #
