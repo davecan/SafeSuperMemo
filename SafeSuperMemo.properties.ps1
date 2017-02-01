@@ -36,10 +36,15 @@ $onedrivePath = Join-Path -Path $env:LOCALAPPDATA -ChildPath Microsoft\OneDrive\
 #
 # Set this to one of the enum values from SyncService above
 #
-# IMPORTANT:  ONLY ONE OF THE NEXT TWO LINES SHOULD BE UNCOMMENTED.
+# If you want to use Dropbox make the line look like this:
+#
+#    $useService = [SyncService]::Dropbox
+#
+# If you want to use OneDrive make the line look like this:
+#
+#    $useService = [SyncService]::OneDrive
 #
 $useService = [SyncService]::Dropbox
-#$useService = [SyncService]::OneDrive
 
 
 #
