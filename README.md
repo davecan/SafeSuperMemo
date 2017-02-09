@@ -6,6 +6,8 @@ This script is designed to wrap execution of SuperMemo so that it can be safely 
 
 Storing your collection in a location that is synchronized while SuperMemo is running can result in catastrophic collection corruption if the service is not disabled first. This script handles all of that and also pre-emptively backs up your collection to another location of your choice.
 
+[Announcement on SuperMemopedia](http://supermemopedia.com/wiki/SafeSuperMemo_PowerShell_script_for_Dropbox_with_automated_backups)
+
 ### What about the Dropbox Conflict Resolver? 
 
 There's absolutely nothing wrong with the AutoHotKey-based Dropbox Conflict Resolver available on the SuperMemopedia site. It's a perfectly fine tool. If you like it and want to keep using it please feel free. It's been in use for years. Of course, it only supports Dropbox, but in theory it could be modified to support OneDrive as well.
