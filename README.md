@@ -14,7 +14,7 @@ There's absolutely nothing wrong with the AutoHotKey-based Dropbox Conflict Reso
 
 SafeSuperMemo takes the same idea and extends it by adding an automated file backup of your collection. Since it is written in PowerShell it also eliminates the dependency on AutoHotKey, and significantly expands the possibilities of what features can be added.
 
-What it does:
+### How it works
 
 * Stops the sync service (Dropbox or OneDrive) so it doesn't interfere with SuperMemo file management. If not shut down it can cause catastrophic corruption of your collection.
 
@@ -30,9 +30,17 @@ To use, just create a shortcut to Powershell and pass it the path to the `.ps1` 
   
 The script and its associated properties file are both thoroughly documented. See them for more details. Be sure to check the warnings.
 
+### My backup strategy
+
+This script is just one piece of what should be a larger backup strategy. Given the importance of your collection you should ensure you have appropriate levels of redundancy and recoverability to insure against data loss.
+
+For example, my active SuperMemo collection is kept in Dropbox with the Dropbox folder mounted on the `C` drive. Currently (May 2017) the collection contains 12,000 cards/items and consists of 1595 folders and 16,096 files consuming 56Mb of disk space.
+
+Backups are stored in a separate drive `F`. Currently (May 2017) there are 405 timestamped backups consisting of a total of 444K folders and 4.4 million files consuming 12.1GB disk space. (Yes this is excessive, but as the script author I eat my own dog food and am over-cautious)  The entire system is backed up using a cloud backup service. In the event of a system loss the current collection and any/all backups can be retrieved from the cloud service. I also occasionally make direct backups of the active collection as well.
+
 ### Caveat Emptor
 
-I've used this personally over 150 times without incident, including recovering from backup copies a few times. But just because I never encountered an issue with it doesn't guarantee you won't. Therefore your use of this must be at your own risk. Be sure to check the warnings in the script documentation. **You are responsible for the integrity of your collection!**
+I've used this personally ~~150~~ **over 400 times** without incident, including recovering from backup copies a few times. But just because I never encountered an issue with is no guarantee you won't. Therefore your use of this must be at your own risk. Be sure to check the warnings in the script documentation. **You are responsible for the integrity of your collection!**
 
 ### Platforms
 
