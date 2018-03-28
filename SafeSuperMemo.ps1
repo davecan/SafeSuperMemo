@@ -83,7 +83,9 @@ will work exactly the same on every computer. Because of the importance of your 
 in your life you should continue to perform periodic manual backups and consider redundant backups.
 For example, storing the active collection in a sync service and storing the backups on the local computer 
 which is in turn backed up regularly via another cloud backup service and/or hard disk backups and/or images.
-You are responsible for the integrity of your collection.
+You are responsible for the integrity of your collection. 
+
+Do not taunt Happy Fun Ball. Colon Blow may cause abdominal distention. Consult a physician.
 
 Refs:
 
